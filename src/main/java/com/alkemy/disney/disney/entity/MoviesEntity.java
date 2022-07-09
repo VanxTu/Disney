@@ -10,30 +10,33 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "pelicula")
+@Table(name = "movie")
 @Getter
 @Setter
 
-public class PeliculaEntity {
+public class MoviesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String imagen;
+    private String image;
 
-    @Column(name= "fecha_creacion")
+    private String title;
+
+    @Column(name= "creation_date")
     @DateTimeFormat(pattern = "yyyy/mm/dd")
-    private LocalDate fechaCreacion;
+    private LocalDate creationDate;
 
-    private byte calificacion; // del 1 al 5
+    private byte qualification; // from 1 to 5
+
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "genero_id", insertable = false, updatable = false)
-    private GeneroEntity genero;
+    @JoinColumn(name = "genre_id", insertable = false, updatable = false)
+    private GenresEntity genre;
 
-    @Column(name = "genero_id", nullable = false)
-    private Long generoId;
+    @Column(name = "genre_id", nullable = false)
+    private Long genreId;
 
     @ManyToMany(
             cascade = {
@@ -41,10 +44,10 @@ public class PeliculaEntity {
                     CascadeType.MERGE
             })
     @JoinTable(
-            name = "personaje_pelicula",
-            joinColumns = @JoinColumn(name = "pelicula_id"),
-            inverseJoinColumns = @JoinColumn(name = "personaje_id"))
-    private Set<PersonajeEntity> personaje = new HashSet<>();
+            name = "character_movie",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id"))
+    private Set<CharactersEntity> charactrs = new HashSet<>();
 
 
 
